@@ -13,8 +13,8 @@ working on Datomic.
 
 In deps.edn
 
-    com.datomic/dev.datafy {:sha "<latest>" 
-	                        :git/url "git@github.com:Datomic/dev.datafy.git"}
+    com.datomic/dev.datafy {:git/sha "4a9dffb" 
+	                    :git/url "git@github.com:Datomic/dev.datafy.git"}
 
 
 ## Example Usage
