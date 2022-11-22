@@ -14,8 +14,8 @@ working on Datomic.
 In deps.edn
 
     com.datomic/dev.datafy {:git/sha "4a9dffb" 
-                                :git/tag "v0.1"
-	                        :git/url "git@github.com:Datomic/dev.datafy.git"}
+                            :git/tag "v0.1"
+	                        :git/url "https://github.com/Datomic/dev.datafy.git"}
 
 
 ## Example Usage
