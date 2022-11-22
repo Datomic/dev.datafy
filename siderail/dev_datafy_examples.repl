@@ -1,0 +1,36 @@
+;; run this in a REPL connected to a datafy-aware viewer, e.g REBL
+(require
+ :reload
+ '[clojure.core.async :as a :refer (go <! put!)]
+ '[datomic.dev.datafy.util :as d-util]
+ '[datomic.dev.datafy.java :as d-java]
+ '[datomic.dev.datafy.clojure :as d-clj]
+ '[datomic.dev.datafy.async :as d-async]
+ '[datomic.dev.datafy :as ddd])
+
+;; datafy all the things
+(ddd/datafy!)
+
+(defn bbuf [bs] (java.nio.ByteBuffer/wrap bs))
+(deftype Box [x y])
+(d-util/datafy-declared-fields Box)
+
+;; nav around
+(let [a 42]
+  {:thread (Thread. (fn []))
+   :box (Box. 1 2)
+   :socket (java.net.ServerSocket.)
+   :channels {:fixed (doto (a/chan 10) (put! :fixed))
+              :sliding (doto (a/chan (a/sliding-buffer 10))
+                         (put! :sliding))
+              :dropping (doto (a/chan (a/dropping-buffer 10))
+                          (put! :dropping))
+              :promise (doto (a/promise-chan)
+                         (put! :promise))
+              :parked-go (go (<! (a/chan)))
+              :thread (a/thread 42)}
+   :bbufs {:empty-bbuf (bbuf (byte-array 0))
+           :ascii-bbuf (bbuf (byte-array (range 65 75)))
+           :random-bbuf (bbuf (byte-array (repeatedly 100 #(rand-int 255))))}
+   :reify (fn [] (str "Answer is " a))})
+
